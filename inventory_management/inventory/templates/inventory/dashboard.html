@@ -1,0 +1,66 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+	{% if messages %}
+		<div class="row mt-3">
+			{% for message in messages %}
+				{% if message.tags == 'error' %}
+					<div class="col-md-10 col-12 mx-auto alert alert-danger">
+						{{ message }}
+					</div>
+				{% else %}
+					<div class="col-md-10 col-12 mx-auto alert alert-success">
+						{{ message }}
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	{% endif %}
+	<div class="row">
+		<div class="col-md-10 col-12 mx-auto mt-5">
+			<div class="d-flex justify-content-end">
+				<a href="{% url 'add-item' %}" class="btn btn-primary">+</a>
+			</div>
+
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Name</th>
+						<th scope="col">Qty</th>
+						<th scope="col">Category</th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% if items|length == 0 %}
+					<tr>
+						<th scope="row">-</th>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td></td>
+					</tr>
+					{% endif %}
+
+					{% for item in items %}
+					<tr>
+						<th scope="row">{{ item.id }}</th>
+						<td>{{ item.name }}</td>
+						{% if item.id in low_inventory_ids %}
+							<td class="text-danger">{{ item.quantity }}</td>
+						{% else %}
+							<td class="text-success">{{ item.quantity }}</td>
+						{% endif %}
+						<td>{{ item.category.name }}</td>
+						<td><a href="{% url 'edit-item' item.id %}" class="btn btn-outline-secondary">Edit</a></td>
+						<td><a href="{% url 'delete-item' item.id %}" class="btn btn-secondary">Delete</a></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock content %}

@@ -1,0 +1,18 @@
+{% extends 'inventory/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+	<div class="col-11 col-md-4 mx-auto mt-5">
+		<h1>Log In</h1>
+		<form method="post">
+			{% csrf_token %}
+			{{ form|crispy }}
+			<button class="btn btn-primary">Sign In</button>
+		</form>
+		<div class="pt-3">
+			<small class="text-muted">Need an account? <a href="{% url 'signup' %}" class="ml-2">Sign Up</a></small>
+		</div>
+	</div>
+</div>
+{% endblock content %}

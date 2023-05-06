@@ -1,0 +1,35 @@
+{% extends "inventory/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-11 col-md-4 mx-auto mt-5">
+			<h1>Sign Up</h1>
+			{% if form.errors %}
+				{% for field in form %}
+					{% for error in field.errors %}
+						<div class="alert alert-danger">
+							<strong>{{ error|escape }}</strong>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{% for error in form.non_field_errors %}
+					<div class="alert alert-danger">
+						<strong>{{ error|escape }}</strong>
+					</div>
+				{% endfor %}
+			{% endif %}
+
+			<form method="post">
+				{% csrf_token %}
+				{{ form|crispy }}
+
+				<button class="btn btn-primary" type="submit">Sign Up</button>
+			</form>
+
+			<div class="pt-3">
+				<small class="text-muted">Already have an account? <a href="{% url 'login' %}" class="ml-2">Sign In</a></small>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
